@@ -1,0 +1,67 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://ct86ajeskjq18"]
+
+[ext_resource type="Shader" path="res://Volumetric-Raymarched-Clouds-Shader.gdshader" id="1_bvuwl"]
+
+[sub_resource type="Gradient" id="Gradient_p1vek"]
+offsets = PackedFloat32Array(0.238411, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_oe3r3"]
+noise_type = 3
+seed = 256
+frequency = 0.001
+fractal_octaves = 4
+fractal_lacunarity = 8.0
+fractal_gain = 1.0
+fractal_ping_pong_strength = 4.21
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_bseiy"]
+seamless = true
+seamless_blend_skirt = 1.0
+color_ramp = SubResource("Gradient_p1vek")
+noise = SubResource("FastNoiseLite_oe3r3")
+
+[sub_resource type="Gradient" id="Gradient_drckq"]
+offsets = PackedFloat32Array(0.309051, 0.671082)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vskvr"]
+noise_type = 0
+seed = 77
+frequency = 0.0295
+fractal_type = 2
+fractal_lacunarity = 3.54
+fractal_weighted_strength = 0.29
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_6p874"]
+width = 128
+height = 128
+depth = 128
+seamless = true
+seamless_blend_skirt = 0.058
+normalize = false
+color_ramp = SubResource("Gradient_drckq")
+noise = SubResource("FastNoiseLite_vskvr")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_bvuwl")
+shader_parameter/CloudNoiseUVTiling = 2.669
+shader_parameter/CloudNoiseTilingMagnitude = 0.443
+shader_parameter/cloud_threshold = 0.17
+shader_parameter/cloud_threshold_multiplier = 4.291
+shader_parameter/GPUKiller = 32
+shader_parameter/GPUSaver = 0.6
+shader_parameter/cloud_scroll_speed = 0.1
+shader_parameter/minBounds = Vector3(-4096, 256, -4096)
+shader_parameter/maxBounds = Vector3(4096, 576, 4096)
+shader_parameter/DetailNoiseInfluenceOnFinalResult = 21.333
+shader_parameter/detail_scroll_speed = -8.167
+shader_parameter/DetailNoiseUVTiling = 1.636
+shader_parameter/light_direction = Vector3(0.5, -0.1, 0.5)
+shader_parameter/cloud_movement_direction = Vector3(0.001, -0.001, 0.001)
+shader_parameter/cloud_movement_speed = 16.0
+shader_parameter/cloudMovementMagnitude = 0.887
+shader_parameter/LightCorrection = 0.5
+shader_parameter/cloud_alpha = 4.0
+shader_parameter/cloud_color = Color(0.7, 0.4, 0.4, 1)
+shader_parameter/cloud_noise_texture = SubResource("NoiseTexture3D_bseiy")
+shader_parameter/detail_noise_texture = SubResource("NoiseTexture3D_6p874")
